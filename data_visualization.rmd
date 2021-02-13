@@ -60,31 +60,38 @@ ggdensity(sample_dat, x = "num_tot",
 ```{r}
 # distribution of capita rebate ordered by CES and income percentile before and after income-cap.
 completeFun(dat,c("CES 3.0 Percentile","rebate_capita_average","rebate_capita_average_before","rebate_capita_average_after")) %>%filter(rebate_capita_average < 100)%>%ggplot()+
-  geom_smooth(aes(x=`CES 3.0 Percentile`,y=`rebate_capita_average_before`,color="before policy",linetype="before policy"),alpha = 0.25)+
-  geom_smooth(aes(x=`CES 3.0 Percentile`,y=`rebate_capita_average_after`,color="after policy",linetype="after policy"),alpha = 0.25)+
+  geom_smooth(aes(x=`CES 3.0 Percentile`,y=`rebate_capita_average_before`,color="before income cap",linetype="before income cap"),alpha = 0.25)+
+  geom_smooth(aes(x=`CES 3.0 Percentile`,y=`rebate_capita_average_after`,color="after income cap",linetype="after income cap"),alpha = 0.25)+
   xlab("CES Percentile (High value means disadvantaged)")+
-  ylab("Rebate per capita")+
+  ylab("Total rebate")+
   labs(color = NULL,linetype = NULL)+
   scale_color_aaas()+
   theme_bw()+
   theme(legend.position="bottom")+
   geom_vline(xintercept = 75,linetype="dashed")+
   geom_text(x=75, y=5, label="DAC line",angle = 0,size=4)+
-  ggtitle("Rebate per capita ordered by CES percentile")+
+  ggtitle("Total rebate ordered by CES percentile")+
   ggsave("Figures/ces_capita.pdf",width = 8.7/2, height = 8.7/3, dpi = 300)
 
-
-completeFun(dat,c("income_md","rebate_capita_average","rebate_capita_average_before","rebate_capita_average_after")) %>%filter(rebate_capita_average < 100)%>%ggplot()+
-  geom_smooth(aes(x=`income_md`,y=`rebate_capita_average_before`,color=as.factor("before income cap"),linetype=as.factor("before income cap")),alpha = 0.25)+
-  geom_smooth(aes(x=`income_md`,y=`rebate_capita_average_after`,color=as.factor("after income cap"),linetype=as.factor("after income cap")),alpha = 0.25)+
+income_rebate_capita<-completeFun(dat,c("income_md","rebate_capita_average","rebate_capita_average_before","rebate_capita_average_after")) %>%filter(rebate_capita_average < 100)
+income_rebate_capita%>%ggplot()+
+  geom_smooth(aes(x=`income_md`,y=`rebate_tot_before`,color=as.factor("before income cap"),linetype=as.factor("before income cap")),alpha = 0.25)+
+  geom_smooth(aes(x=`income_md`,y=`rebate_tot_after`,color=as.factor("after income cap"),linetype=as.factor("after income cap")),alpha = 0.25)+
   xlab("Median income")+
-  ylab("Rebate per capita")+
+  ylab("Total rebate")+
   labs(color =NULL,linetype= NULL)+
-  ggtitle("Rebate per capita ordered by median income")+
+  ggtitle("Total rebate ordered by median income")+
   scale_color_aaas()+
   theme_bw()+
   theme(legend.position="bottom")+
-  ggsave("Figures/income_capita.pdf",width = 8.7/2, height = 8.7/3, dpi = 300)
+  ggsave("Figures/income_capita.tiff",width = 8.7/2, height = 8.7/3, dpi = 300)
+
+income_rebate_capita_stacked<-rbind(income_rebate_capita,income_rebate_capita)
+ggdensity(income_rebate_capita, x = "income_md",
+   add = "mean", rug = TRUE,
+   color = "DAC", fill = "DAC",
+   palette = c("#0073C2FF", "#FC4E07"),xlim=c(0,400),xlab = "PEV numbers")+
+  ggsave("Figures/density_dac.pdf",width = 8.7/2,height = 8.7/3, dpi = 300)
 
 ```
 
@@ -142,13 +149,13 @@ ggplot(dat4fun3)+
 
 # number
 completeFun(dat,c("rebate_tot","num_tot"))%>%arrange(`num_tot`)%>% mutate(y=cumsum(rebate_tot)/sum(rebate_tot))%>%   ggplot(aes(x=seq(0,1,1/(nrow(.)-1)),y=y))+
-  geom_line(size = 1) +
+  geom_line() +
   geom_abline(intercept=0,slope=1,linetype="dashed")+
   xlab("By increasing PEV buyers")+
   ylab("Cumulative share of total rebate") +
   ggtitle("Gini: PEV buyers")+
   coord_fixed()+
-  theme_minimal()+
+  theme_bw()+
   ggsave("Figures/lorenz_gini.pdf",width = 8.7/3,height = 8.7/3, dpi = 300)
 
 # income
@@ -160,7 +167,7 @@ completeFun(dat,c("rebate_tot","income_md","num_tot"))%>%arrange(income_md)%>% m
   ylab("Cumulative share of total rebate") +
   ggtitle("Suits: median income")+
   coord_fixed()+
-  theme_minimal()+
+  theme_bw()+
   ggsave("Figures/lorenz_suits_income.pdf",width = 8.7/3,height = 8.7/3, dpi = 300)
 
 # ces3.0
@@ -172,7 +179,7 @@ completeFun(dat,c("rebate_tot","num_tot","CES 3.0 Score"))%>%arrange(100-`CES 3.
   ylab("Cumulative share of total rebate") +
   ggtitle("Suits: CES3.0 score")+
   coord_fixed()+
-  theme_minimal()+
+  theme_bw()+
   ggsave("Figures/lorenz_suits_ces.pdf",width = 8.7/3,height = 8.7/3, dpi = 300)
 ```
 
@@ -187,14 +194,14 @@ a[21,2]<-1.00 # the raw sales record is slight low than CVRP record (101.38987%)
 
 
 ggplot(a)+                    # the 34th one is overall average value, so omit that.( 0.55994735 ,	0.434460486)
-  geom_line(aes(x=Time,y=adoption.rate_phev, color = "phev", linetype = "phev")) +  
-  geom_line(aes(x=Time,y=adoption.rate_bev,color = "bev", linetype = "bev")) +
-  geom_point(aes(x=Time,y=adoption.rate_phev, color = "phev", shape = "phev")) +  
-  geom_point(aes(x=Time,y=adoption.rate_bev,color = "bev", shape = "bev")) +
+  geom_line(aes(x=Time,y=adoption.rate_phev, color = "PHEV", linetype = "PHEV")) +  
+  geom_line(aes(x=Time,y=adoption.rate_bev,color = "BEV", linetype = "BEV")) +
+  geom_point(aes(x=Time,y=adoption.rate_phev, color = "PHEV", shape = "PHEV")) +  
+  geom_point(aes(x=Time,y=adoption.rate_bev,color = "BEV", shape = "BEV")) +
   # geom_rect(aes(xmin=2016.2383, xmax=2016.8356, ymin=-Inf, ymax=Inf),fill='#FF3300',alpha = .02)+
   geom_vline(xintercept = 2016,linetype=4, colour="grey50"  )+
   # geom_vline(xintercept = 2016.8356,linetype=4, colour="grey50"  )+
-  scale_color_manual(values = c("phev"="#0073C2FF","bev"="#FC4E07"))+
+  scale_color_manual(values = c("PHEV"="#0073C2FF","BEV"="#FC4E07"))+
   geom_text(x=2017.5, y=1.0, label="after income cap",size=5)+
   geom_text(x=2013.5, y=1.0, label="before income cap ",size=5)+
   geom_text(x=2016, y=.25, label="3/29/2016",angle = 0,size=5)+
@@ -323,6 +330,7 @@ p3<-ggplot(NULL)+
   theme_bw()+
   theme(legend.position= "none")+
   ggsave("Figures/suits-rebate-dac-year.pdf",width = 8.7/2,height = 8.7/2, dpi = 300)
+p3
 
 ```
 
@@ -503,14 +511,17 @@ ggplot()+
 
 summarytotalrebate <- read_csv("Data/summarytotalrebate.csv")
 
-
+summarytotalrebate$income_group <- factor(summarytotalrebate$income_group,levels = c("low_income","moderate_low","moderate_high","high_income"))
 ggplot(summarytotalrebate,aes(x=year,y=total_rebate,group=income_group,fill=income_group))+
-  geom_bar(stat="identity", position=position_dodge(),alpha=0.7)+
+  geom_bar(stat="identity", position=position_dodge(),alpha=0.75)+
   # scale_fill_manual(values = brewer.pal(n = 4, name = "Set1"))+
   ggtitle("Total rebate comparison between income groups by year")+
   scale_x_continuous(breaks=seq(2011, 2018, 1))+
+  ylab("Total rebate ($)")+
+  xlab("Year")+
   theme_bw()+
-  scale_fill_tron()+
+  scale_fill_d3()+
+  labs(fill="Income group")+
   theme(legend.position="bottom")+
   ggsave("Figures/total_rebate.pdf",width = 8.7, height = 8.7/2, dpi = 300)
 

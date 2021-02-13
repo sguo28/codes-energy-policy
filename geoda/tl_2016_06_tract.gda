@@ -197,11 +197,11 @@
             </weights_entries>
             <default_vars>
                 <default_var>
-                    <name>rebat_rage</name>
+                    <name>ces_score</name>
                     <time_id>time 0</time_id>
                 </default_var>
                 <default_var>
-                    <name/>
+                    <name>rebate_tot</name>
                     <time_id>time 0</time_id>
                 </default_var>
                 <default_var>
