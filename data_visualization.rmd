@@ -213,7 +213,7 @@ ggplot(a)+                    # the 34th one is overall average value, so omit t
   scale_x_continuous(breaks=seq(2011, 2019, 0.25),labels=as.character(adoptionev[1:33,]$Time))+
   theme(legend.position="bottom")+
   ggtitle("The percentage of CVRP in total PEV registration (2011 Q1 - 2019 Q1)")+ theme(axis.text.x = element_text(angle=90, hjust=1, vjust=.5))+
-  ggsave("Figures/adoptionev.pdf",width = 8.7, dpi = 300)
+  ggsave("Figures/adoptionev.pdf",width = 8.7, height = 8.7/2.5, dpi = 300)
 
 ```
 
@@ -523,7 +523,7 @@ ggplot(summarytotalrebate,aes(x=year,y=total_rebate,group=income_group,fill=inco
   scale_fill_d3()+
   labs(fill="Income group")+
   theme(legend.position="bottom")+
-  ggsave("Figures/total_rebate.pdf",width = 8.7, height = 8.7/2, dpi = 300)
+  ggsave("Figures/total_rebate.pdf",width = 8.7, height = 8.7/2.5, dpi = 300)
 
 
   
@@ -552,5 +552,21 @@ lisaplotting %>%ggplot(aes(x= MORAN_STD,y=MORAN_LAG))+
   ylim(-10,10)+
   theme_bw()+
   ggsave("Figures/moranscatterplot.pdf",width = 8.7/2,height = 8.7/2,  dpi = 300)
+
+```
+
+```{r}
+ggplot()+
+  geom_segment(aes(x=0,xend = 24, y=0, yend= 0.278*24, color = "Arrival_red"))+
+  geom_segment(aes(x=24,xend = 71.65, y=0.278*24, yend= 10.439, color = "Arrival_green"))+
+  geom_segment(aes(x=56,xend = 71.65, y=0, yend= 10.439, color = "Departure"))+
+  ylab("Veh")+
+  xlab("Time")+
+  theme_bw()+
+  scale_color_d3()+
+  ggtitle("Delay polygon")+
+  theme(legend.position="bottom",legend.title=element_blank())+
+  ggsave("Figures/lab4.pdf",width = 8.7, height = 8.7/2.5, dpi = 300)
+
 
 ```
