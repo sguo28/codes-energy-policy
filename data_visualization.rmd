@@ -86,12 +86,12 @@ income_rebate_capita%>%ggplot()+
   theme(legend.position="bottom")+
   ggsave("Figures/income_capita.tiff",width = 8.7/2, height = 8.7/3, dpi = 300)
 
-income_rebate_capita_stacked<-rbind(income_rebate_capita,income_rebate_capita)
-ggdensity(income_rebate_capita, x = "income_md",
-   add = "mean", rug = TRUE,
-   color = "DAC", fill = "DAC",
-   palette = c("#0073C2FF", "#FC4E07"),xlim=c(0,400),xlab = "PEV numbers")+
-  ggsave("Figures/density_dac.pdf",width = 8.7/2,height = 8.7/3, dpi = 300)
+# income_rebate_capita_stacked<-rbind(income_rebate_capita,income_rebate_capita)
+# ggdensity(income_rebate_capita, x = "income_md",
+#    add = "mean", rug = TRUE,
+#    color = "DAC", fill = "DAC",
+#    palette = c("#0073C2FF", "#FC4E07"),xlim=c(0,400),xlab = "PEV numbers")+
+#   ggsave("Figures/density_dac.pdf",width = 8.7/2,height = 8.7/3, dpi = 300)
 
 ```
 
@@ -438,6 +438,26 @@ for (i in 1:9) {
 
 ```{r}
 
+summarytotalrebate <- read_csv("Data/summarytotalrebate.csv")
+
+summarytotalrebate$income_group <- factor(summarytotalrebate$income_group,levels = c("low_income","moderate_low","moderate_high","high_income"))
+ggplot(summarytotalrebate,aes(x=year,y=total_rebate,group=income_group,fill=income_group))+
+  geom_bar(stat="identity", position=position_dodge(),alpha=0.75)+
+  # scale_fill_manual(values = brewer.pal(n = 4, name = "Set1"))+
+  ggtitle("Total rebate comparison between income groups by year")+
+  scale_x_continuous(breaks=seq(2011, 2018, 1))+
+  ylab("Total rebate ($)")+
+  xlab("Year")+
+  theme_bw()+
+  scale_fill_d3()+
+  labs(fill="Income group")+
+  theme(legend.position="bottom")+
+  ggsave("Figures/total_rebate.pdf",width = 8.7, height = 8.7/2.5, dpi = 300)
+
+```
+
+```{r}
+
 # suits among groups rebate vs. income
 ggplot()+
   geom_line(aes(x=seq(2010,2018,1),y=gini.group1,color="DAC",linetype ="DAC") )+
@@ -464,9 +484,6 @@ ggplot()+
 
 
 ```{r}
-# 
-
-
 ggplot()+
   geom_line(aes(x=seq(2010,2018,1),y=gini_num ,color="Gini",linetype="Gini"))+
   geom_line(aes(x=seq(2010,2018,1),y=suits_income,color="Suits-income",linetype = "Suits-income" ))+
@@ -507,30 +524,6 @@ ggplot()+
   ggsave("Figures/suits_among_groups.pdf",width = 8.7/2, height = 8.7/3  ,dpi = 300)
 ```
 
-```{r}
-
-summarytotalrebate <- read_csv("Data/summarytotalrebate.csv")
-
-summarytotalrebate$income_group <- factor(summarytotalrebate$income_group,levels = c("low_income","moderate_low","moderate_high","high_income"))
-ggplot(summarytotalrebate,aes(x=year,y=total_rebate,group=income_group,fill=income_group))+
-  geom_bar(stat="identity", position=position_dodge(),alpha=0.75)+
-  # scale_fill_manual(values = brewer.pal(n = 4, name = "Set1"))+
-  ggtitle("Total rebate comparison between income groups by year")+
-  scale_x_continuous(breaks=seq(2011, 2018, 1))+
-  ylab("Total rebate ($)")+
-  xlab("Year")+
-  theme_bw()+
-  scale_fill_d3()+
-  labs(fill="Income group")+
-  theme(legend.position="bottom")+
-  ggsave("Figures/total_rebate.pdf",width = 8.7, height = 8.7/2.5, dpi = 300)
-
-
-  
-
-
-
-```
 
 ```{r}
 lisaplotting <- read_csv("Data/lisaplotting.csv")
@@ -555,18 +548,3 @@ lisaplotting %>%ggplot(aes(x= MORAN_STD,y=MORAN_LAG))+
 
 ```
 
-```{r}
-ggplot()+
-  geom_segment(aes(x=0,xend = 24, y=0, yend= 0.278*24, color = "Arrival_red"))+
-  geom_segment(aes(x=24,xend = 71.65, y=0.278*24, yend= 10.439, color = "Arrival_green"))+
-  geom_segment(aes(x=56,xend = 71.65, y=0, yend= 10.439, color = "Departure"))+
-  ylab("Veh")+
-  xlab("Time")+
-  theme_bw()+
-  scale_color_d3()+
-  ggtitle("Delay polygon")+
-  theme(legend.position="bottom",legend.title=element_blank())+
-  ggsave("Figures/lab4.pdf",width = 8.7, height = 8.7/2.5, dpi = 300)
-
-
-```
