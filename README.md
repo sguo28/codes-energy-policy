@@ -3,7 +3,7 @@ The preliminary work was presented at TRB 2021.
 The fulfilled work has been preprinted at [SSRN](https://ssrn.com/abstract=3687504), and it is accepted by Energy Policy.
 
 ### Rcode and RMarkDown
-We used R to process socioeconomic data including California rebate data from 2010 to 2018, median income data from Census Bureau, and CES3.0 score record from CARB.
+We used R to process socioeconomic data including [California rebate data](https://cleanvehiclerebate.org/eng/rebate-statistics) from 2010 to 2018, median income and population data from [Census Bureau](https://www.census.gov/data/data-tools.html), and [CES3.0 score record](https://oehha.ca.gov/calenviroscreen/report/calenviroscreen-30) from The Office of Environmental Health Hazard Assessment (OEHHA) in California.
 The main processing is to compute the Gini index and Suit index inside the data. The detailed codes are included in '''data_visualization.rmd'''.
 
 ### Geoda 
