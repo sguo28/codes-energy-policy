@@ -2,7 +2,7 @@
 The preliminary work was presented at TRB 2021. 
 The fulfilled work has been preprinted at [SSRN](https://ssrn.com/abstract=3687504), and it is accepted by Energy Policy.
 
-### Rcode
+### Rcode and RMarkDown
 We used R to process socioeconomic data including California rebate data from 2010 to 2018, median income data from Census Bureau, and CES3.0 score record from CARB.
 The main processing is the mining the Gini index and Suit index inside the data. The detailed codes are included in RCode folder.
 
