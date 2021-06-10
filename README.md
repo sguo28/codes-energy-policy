@@ -17,9 +17,12 @@ With well-developed function and tools in Geoda, the processing is not so compli
 
 We are happy to help if you have any question. If you used any part of the code, please cite the following paper: 
 
-@article{guo2020disparities,
-  title={Disparities and Equity Issues of Electric Vehicles Rebate Allocation},
+@article{guo2021disparities,
+  title={Disparities and equity issues in electric vehicles rebate allocation},
   author={Guo, Shuocheng and Kontou, Eleftheria},
-  journal={Available at SSRN 3687504},
-  year={2020}
+  journal={Energy Policy},
+  volume={154},
+  pages={112291},
+  year={2021},
+  publisher={Elsevier}
 }
