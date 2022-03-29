@@ -1,6 +1,6 @@
 ## Codes for submission to Energy Policy.
 The preliminary work was presented at TRB 2021. 
-The fulfilled work has been preprinted at [SSRN](https://ssrn.com/abstract=3687504), and it is accepted by Energy Policy.
+The fulfilled work has been preprinted at [SSRN](https://ssrn.com/abstract=3687504), and it is accepted by [Energy Policy](https://www.sciencedirect.com/science/article/pii/S0301421521001609).
 
 ### Rcode and RMarkDown
 We used R to process socioeconomic data including [California rebate data](https://cleanvehiclerebate.org/eng/rebate-statistics) from 2010 to 2018, median income and population data from [Census Bureau](https://www.census.gov/data/data-tools.html), and [CES3.0 score record](https://oehha.ca.gov/calenviroscreen/report/calenviroscreen-30) from The Office of Environmental Health Hazard Assessment (OEHHA) in California.
